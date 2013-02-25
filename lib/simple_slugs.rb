@@ -23,7 +23,9 @@ module SimpleSlugs
       def self.find(input, *args)
         if input.is_a?(Integer) || input.is_a?(Fixnum)
           super
-        elsif input.to_i.to_s == input
+        elseif input.is_a?(Symbol)
+          super
+        elsif input.is_a?(String) && input.to_i.to_s == input
           super
         else
           obj = Slug.find_by_slug(input)
