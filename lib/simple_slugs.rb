@@ -75,6 +75,7 @@ module SimpleSlugs
       })
       
       update_menu_elements(slug)
+      slug
     end
     
     def remove_slug
