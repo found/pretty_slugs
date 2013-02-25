@@ -20,14 +20,14 @@ module SimpleSlugs
     # http://stackoverflow.com/questions/4261615/workaround-for-ruby-1-9-2-super-from-singleton-method-that-is-defined-to-multip
     # error occurs when same lexical method (which calls super) is defined on the singleton class of two or more objects of different classes, and then that method is called on any of the objects other than the last one the method was defined on...
     eval %(
-      def self.find(input)
+      def self.find(input, *args)
         if input.is_a?(Integer) || input.is_a?(Fixnum)
           super
         elsif input.to_i.to_s == input
           super
         else
           obj = Slug.find_by_slug(input)
-          return obj.sluggable_class.constantize.find(obj.sluggable_id) rescue nil
+          return obj.sluggable_class.constantize.find(obj.sluggable_id, args) rescue nil
         end
       end
     )
