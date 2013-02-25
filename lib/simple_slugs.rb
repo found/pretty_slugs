@@ -27,7 +27,7 @@ module SimpleSlugs
           super
         else
           obj = Slug.find_by_slug(input)
-          return obj.sluggable_class.constantize.find(obj.sluggable_id)
+          return obj.sluggable_class.constantize.find(obj.sluggable_id) rescue nil
         end
       end
     )
