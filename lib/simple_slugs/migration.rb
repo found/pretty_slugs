@@ -2,7 +2,7 @@ class CreateSimpleSlugs < ActiveRecord::Migration
   def self.up
     create_table :simple_slugs do |t|
       t.string :slug, null: false
-      t.id :sluggable_id, null: false
+      t.integer :sluggable_id, null: false
       t.string :sluggable_class, null: false
       t.timestamps
     end
