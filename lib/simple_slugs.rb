@@ -33,6 +33,7 @@ module SimpleSlugs
     )
     class Slug < ActiveRecord::Base
       set_table_name :simple_slugs
+      attr_accessor :slug, :sluggable_id, :sluggable_class
     end
     
     def slug
