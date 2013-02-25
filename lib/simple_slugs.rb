@@ -40,7 +40,6 @@ module SimpleSlugs
       slug = Slug.find_by_sluggable_id_and_sluggable_class(self.id, self.class.to_s).slug rescue nil
       return slug if slug
       generate_slug
-      return slug
     end
     
     def slug=(val)
