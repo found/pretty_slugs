@@ -23,7 +23,7 @@ module SimpleSlugs
       def self.find(input, *args)
         if input.is_a?(Integer) || input.is_a?(Fixnum)
           super
-        elseif input.is_a?(Symbol)
+        elsif input.is_a?(Symbol)
           super
         elsif input.is_a?(String) && input.to_i.to_s == input
           super
