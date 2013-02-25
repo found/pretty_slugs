@@ -18,7 +18,23 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+to add the migration(s) to your app, run
+
+    $ rails g simple_slugs
+
+then run
+
+    $ rake db:migrate
+
+To your models that need to implement simple slugs, add this line:
+
+    include SimpleSlugs
+
+And that is all you need if your model has a :name column, 
+if you want to override the slug via a form field, then
+you can create a field named :slug in the model's form
+
+
 
 ## Contributing
 
