@@ -32,7 +32,7 @@ module SimpleSlugs
       end
     )
     class Slug < ActiveRecord::Base
-
+      set_table_name :simple_slugs
     end
     
     def slug

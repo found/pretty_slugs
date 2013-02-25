@@ -13,6 +13,6 @@ class CreateSimpleSlugs < ActiveRecord::Migration
   end
   
   def self.down
-    drop_table :friendly_id_slugs
+    drop_table :simple_slugs
   end
 end
