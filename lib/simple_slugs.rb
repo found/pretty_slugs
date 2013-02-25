@@ -31,6 +31,9 @@ module SimpleSlugs
         end
       end
     )
+    class Slug < ActiveRecord::Base
+
+    end
     
     def slug
       slug = Slug.find_by_sluggable_id_and_sluggable_class(self.id, self.class.to_s).slug rescue nil
