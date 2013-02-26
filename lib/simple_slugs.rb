@@ -34,7 +34,7 @@ module SimpleSlugs
       end
     )
     class Slug < ActiveRecord::Base
-      self.table_name 'simple_slugs'
+      self.table_name = 'simple_slugs'
       attr_accessible :slug, :sluggable_id, :sluggable_class
     end
     
