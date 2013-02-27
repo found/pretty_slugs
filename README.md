@@ -1,4 +1,6 @@
-# SimpleSlugs
+# PrettySlugs
+
+[Slug Monster](http://www.horrordvds.com/reviews/n-z/slugs/slugs_shot3l.jpg)
 
 TODO: Write a gem description
 
@@ -6,7 +8,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'simple_slugs'
+    gem 'pretty_slugs'
 
 And then execute:
 
@@ -14,21 +16,21 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install simple_slugs
+    $ gem install pretty_slugs
 
 ## Usage
 
 to add the migration(s) to your app, run
 
-    $ rails g simple_slugs
+    $ rails g pretty_slugs
 
 then run
 
     $ rake db:migrate
 
-To your models that need to implement simple slugs, add this line:
+To your models that need to implement pretty slugs, add this line:
 
-    include SimpleSlugs
+    include PrettySlugs
 
 And that is all you need if your model has a :name column, 
 if you want to override the slug via a form field, then

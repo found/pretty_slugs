@@ -1,6 +1,6 @@
-require "simple_slugs/version"
+require "pretty_slugs/version"
 
-module SimpleSlugs
+module PrettySlugs
   extend ActiveSupport::Concern
   included do
     attr_accessor :slug
@@ -34,7 +34,7 @@ module SimpleSlugs
       end
     )
     class Slug < ActiveRecord::Base
-      self.table_name = 'simple_slugs'
+      self.table_name = 'pretty_slugs'
       attr_accessible :slug, :sluggable_id, :sluggable_class
     end
     
