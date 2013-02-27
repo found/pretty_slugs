@@ -1,6 +1,6 @@
 # PrettySlugs
 
-[Slug Monster](http://www.horrordvds.com/reviews/n-z/slugs/slugs_shot3l.jpg)
+![Slug Monster](http://www.horrordvds.com/reviews/n-z/slugs/slugs_shot3l.jpg)
 
 TODO: Write a gem description
 
