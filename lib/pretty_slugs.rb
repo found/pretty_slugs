@@ -10,6 +10,8 @@ module PrettySlugs
       case action
       when "destroy"
         remove_slug
+      when "save"
+        check_slug_existence
       end
     }
     
@@ -46,6 +48,7 @@ module PrettySlugs
     end
     
     def slug=(val)
+      @slugstorage = val and return if self.new_record?
       check_slug_existence
       if val != nil && val != ""
         slug = val
