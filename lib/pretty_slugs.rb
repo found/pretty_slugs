@@ -94,10 +94,11 @@ module PrettySlugs
     end
     
     def to_slug(val=nil)
-      word = self[self.respond_to?("name") ? "name" : "title"].strip rescue self["id"]
+      word = self[self.respond_to?("name") ? "name" : "title"] rescue self["id"]
+      word = self["id"].to_s if word.nil?
 
       #strip the string
-      ret = val.nil? ? word : val 
+      ret = val.nil? ? word.strip : val 
       ret = ret.downcase
       #blow away apostrophes
       ret.gsub! /['`]/,""
