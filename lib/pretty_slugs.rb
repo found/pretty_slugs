@@ -3,7 +3,7 @@ require "pretty_slugs/version"
 module PrettySlugs
   extend ActiveSupport::Concern
   included do
-    attr_accessor :slug
+    attr_accessible :slug
     
     after_commit lambda {
       action = transaction_include_action?(:create) ? "create" : transaction_include_action?(:destroy) ? "destroy" : "save"
