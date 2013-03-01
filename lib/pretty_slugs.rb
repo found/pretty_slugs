@@ -98,6 +98,7 @@ module PrettySlugs
     end
     
     def to_slug(val=nil)
+      return @slugstorage if @slugstorage 
       word = self[self.respond_to?("name") ? "name" : "title"] rescue self["id"]
       word = self["id"].to_s if word.nil?
 
