@@ -1,4 +1,6 @@
-require "pretty_slugs/version"
+# require "pretty_slugs/version"
+require 'active_support/concern'
+require 'active_record'
 
 module PrettySlugs
   extend ActiveSupport::Concern
@@ -10,6 +12,8 @@ module PrettySlugs
       case action
       when "destroy"
         remove_slug
+      when "create"
+        check_slug_existence
       when "save"
         check_slug_existence
       end
@@ -48,7 +52,9 @@ module PrettySlugs
     end
     
     def slug=(val)
-      @slugstorage = val and return if self.new_record?
+      # the function of to_slug(val) means that if I try to store a 
+      # custom slug, it will make sure it is slug-worthy, lowercase, underscored, etc...
+      @slugstorage = to_slug(val) and return if self.new_record?
       check_slug_existence
       if val != nil && val != ""
         slug = val
@@ -68,7 +74,7 @@ module PrettySlugs
     def generate_slug
       inc = 1
       slug = self.to_slug
-      while !Slug.find_by_sluggable_id_and_sluggable_class(self.id, self.class.to_s).nil?
+      while !Slug.find_by_slug_and_sluggable_class(slug, self.class.to_s).nil?
         slug += "-#{inc}"
         inc += 1
       end
