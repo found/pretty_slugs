@@ -88,4 +88,27 @@ describe PrettySlugs do
     @jont.slug.must_equal "jon-1"
   end
 
+
+  it "must not create Blank Slug entries" do
+    @rocky = Page.create(:name => "Rocky and Bulwinkle", :slug => '')
+    PrettySlugs::Slug.first.slug.must_equal 'rocky_and_bulwinkle'
+  end
+
+  it "must not allow duplicate slugs even after explicitly assigning the same slug" do
+    @g = Page.create(:name => "About")
+    @h = Page.create(:name => "About Us", :slug => "about")
+    PrettySlugs::Slug.first.slug.must_equal("about")
+    PrettySlugs::Slug.last.slug.must_equal("about-1")
+  end
+
+  it "must not allow duplicate slugs even after explicitly editing and assigning the same slug" do
+    @g = Page.create(:name => "About")
+    @h = Page.create(:name => "About")
+    PrettySlugs::Slug.first.slug.must_equal("about")
+    PrettySlugs::Slug.last.slug.must_equal("about-1")
+    @h.slug = "about"
+    @h.save
+    PrettySlugs::Slug.last.slug.must_equal("about-1")
+  end
+
 end

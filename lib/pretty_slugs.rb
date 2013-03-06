@@ -54,15 +54,30 @@ module PrettySlugs
     def slug=(val)
       # the function of to_slug(val) means that if I try to store a 
       # custom slug, it will make sure it is slug-worthy, lowercase, underscored, etc...
-      @slugstorage = to_slug(val) and return if self.new_record?
+
+      if self.new_record? && val != '' && !val.nil? 
+        @slugstorage = to_slug(val) and return 
+      end
+
+      if matches_existing_slug?(to_slug(val))
+        val = nil
+      end
       check_slug_existence
       if val != nil && val != ""
         slug = val
-        Slug.find_by_sluggable_id_and_sluggable_class(self.id, self.class.to_s).update_attribute(:slug, val)
+        slug_record.update_attribute(:slug, val)
         update_menu_elements(val)
       else
         # do nothing
       end
+    end
+
+    def slug_record
+      Slug.find_by_sluggable_id_and_sluggable_class(self.id, self.class.to_s)
+    end
+
+    def matches_existing_slug?(val=nil)
+      !Slug.find_by_slug_and_sluggable_class(val, self.class.to_s).nil?
     end
     
     def check_slug_existence
@@ -73,30 +88,34 @@ module PrettySlugs
     
     def generate_slug
       inc = 1
-      slug = self.to_slug
-      while !Slug.find_by_slug_and_sluggable_class(slug, self.class.to_s).nil?
-        slug += "-#{inc}"
+      s_slug = self.to_slug
+      while matches_existing_slug?(s_slug)
+        s_slug += "-#{inc}"
         inc += 1
       end
 
       obj = Slug.create({
-        slug: slug,
+        slug: s_slug,
         sluggable_id: self.id,
         sluggable_class: self.class.to_s
       })
-      
-      update_menu_elements(slug)
-      slug
+      @slugstorage = nil
+      update_menu_elements(s_slug)
+      s_slug
     end
     
     def remove_slug
-      Slug.find_by_sluggable_id_and_sluggable_class(self.id, self.class.to_s).destroy rescue true
+      slug_record.destroy rescue true
     end
     
     def update_slug
-      Slug.find_by_sluggable_id_and_sluggable_class(self.id, self.class.to_s).update_attribute(slug: self.slug)
+      begin
+        slug_record.update_attribute(slug: self.slug)
+      rescue
+        generate_slug
+      end
     end
-    
+     
     def update_menu_elements(url=nil)
       if self.respond_to?("menu_elements") && self.class.to_s == "Page"
         self.menu_elements.each{|me| me.update_attribute(:url, ("/pages/" + (url.nil? || url.empty? ? self.slug : url)))}
@@ -104,7 +123,7 @@ module PrettySlugs
     end
     
     def to_slug(val=nil)
-      return @slugstorage if @slugstorage 
+      return @slugstorage if @slugstorage
       word = self[self.respond_to?("name") ? "name" : "title"] rescue self["id"]
       word = self["id"].to_s if word.nil?
 
